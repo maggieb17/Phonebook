@@ -1,0 +1,130 @@
+using System;
+using System.Collections.Generic;
+using System.Collections;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Linq.Expressions;
+using System.Globalization;
+using System.Xml.Linq;
+
+class Program
+{
+    public static void Main(string[] args)
+    {
+        Dictionary<double, string> phoneBook = new Dictionary<double, string>();
+
+
+        phoneBook.Add(0876439492, "Viktor");
+        phoneBook.Add(0894779854, "Mihaela");
+        phoneBook.Add(0897858832, "Hristian");
+        phoneBook.Add(0887677542, "Velislava");
+        phoneBook.Add(0898756458, "Stefan");
+        phoneBook.Add(0899678445, "Hristo");
+
+        Console.ForegroundColor= ConsoleColor.Red;
+        Console.WriteLine("----Phonebook----");
+        Console.ResetColor();
+        Console.WriteLine("Select a, b or c depending on what you want to do:\na)Add contact\nb)Remove contact\nc)Search for a contact");
+        Console.WriteLine();
+        string choice = Console.ReadLine();
+
+        if (choice != "a" && choice != "b" && choice != "c")
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Invalid input");
+            Console.ResetColor();
+        }
+
+        if (choice == "a")
+        {
+            Console.WriteLine("How many numbers do you want to input?");
+            int num = int.Parse(Console.ReadLine());
+            int[] arr = new int[num];
+            Console.WriteLine($"Add a contact by inputing: ");
+            for (int i = 0; i < num; i++)
+            {
+                Console.WriteLine("1. The phone number: ");
+                double number = double.Parse(Console.ReadLine());
+                Console.WriteLine("2. The name of the person: ");
+                string name = Console.ReadLine();
+                Console.WriteLine();
+                phoneBook.Add(number, name);
+
+            }
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("Here is your Phonebook");
+            foreach (KeyValuePair<double, string> item in phoneBook)
+            {
+                Console.WriteLine($"{item.Value}, 0{item.Key}");
+            }
+            Console.ResetColor();
+        }
+
+
+
+        if (choice == "b")
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("Here is your Phonebook");
+
+            foreach (KeyValuePair<double, string> item in phoneBook)
+            {
+                Console.WriteLine($"{item.Value}, 0{item.Key}");
+            }
+            Console.ResetColor();
+
+            Console.WriteLine("Write the phone number of the contact you want to delete: ");
+            double remNum = double.Parse(Console.ReadLine());
+            phoneBook.Remove(remNum);
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("Here is your updated Phonebook");
+            foreach (KeyValuePair<double, string> item in phoneBook)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($"{item.Value}, 0{item.Key}");
+                Console.ResetColor();
+            }
+            Console.ResetColor();
+
+
+        }
+
+        if (choice == "c")
+        {
+            double numberr;
+            Console.WriteLine("Write the name or the number of the contact you want to find:");
+            var search = Console.ReadLine();
+            Double.TryParse(search, out numberr);
+            if (phoneBook.Keys.Contains(numberr))
+            {
+                Console.WriteLine("Here is the name of the contact: " + phoneBook[numberr]);
+            }
+
+            else
+            {
+                bool contactFound = false;
+                foreach (var entry in phoneBook)
+                {
+                    if (string.Equals(entry.Value, search))
+                    {
+                        Console.ForegroundColor= ConsoleColor.Green;
+                        Console.WriteLine($"Contact found: {entry.Value}, 0{entry.Key}");
+                        Console.ResetColor();
+                        contactFound = true;
+                    }
+                }
+                if (!contactFound)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Contact not found.");
+                    Console.ResetColor();
+                }
+            }
+        }
+
+        
+
+
+    }
+}
